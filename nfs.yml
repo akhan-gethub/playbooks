@@ -1,0 +1,25 @@
+---
+- name: NFS PLAYBOOK
+  hosts: host
+  tasks:
+    - name: DISABLING SELINUX
+      shell: "setenforce 0"
+################################
+    - name: STOPPING IPTABLE
+      service: 
+        name: iptables
+        state: stopped
+        enabled: false 
+#################################
+    - name: INSTALLING CLIENT SIDE NFS PACKAGE
+      yum:
+        name: nfs-utils
+        state: present 
+################################
+    - name: MOUNTING NFS SHARE
+      mount:
+        path: /mnt
+        src: 192.168.1.32:/data
+        fstype: nfs
+        state: mounted
+         
